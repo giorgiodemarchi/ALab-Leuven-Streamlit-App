@@ -14,6 +14,7 @@ from map_utils import create_map
 
 st.set_page_config(layout="wide")
 st.markdown("<h1 style='text-align: center;'>Leuven Multi-Modal Mobility Dashboard</h1>", unsafe_allow_html=True)
+st.markdown("""-""")
 
 demand_gdf, parking_gdf, bicycle_gdf, multi_modal_hubs_gdf, model_output_dfs = load_data(bicycle_path = 'cycling_network.gpkg', 
                                                                                         parking_path = 'dashboard_cleaned_parkings.csv', 
@@ -88,3 +89,6 @@ with r2_2:
     map_1.add_data(data=hubs, name='osayxfchxj')
     
     keplergl_static(map_1)
+
+
+st.markdown("<br><br><h4 style='text-align: center;'>More visualization to come !</h4>", unsafe_allow_html=True)
