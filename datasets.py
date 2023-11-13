@@ -26,7 +26,7 @@ def read_s3_file(file_path):
     return df
 
 
-def load_data(bicycle_path, parking_path, demand_path):
+def load_data(bicycle_path, parking_path, demand_path, current_hubs_path):
     """
     Load all data from S3 and return geopandas dataframes
     """
@@ -36,12 +36,17 @@ def load_data(bicycle_path, parking_path, demand_path):
     
     # Parking data
     df_parking = read_s3_file(parking_path)
-    df_parking = df_parking[['label', 'latitude', 'longitude', 'number_of_spots']]
-    parking_gdf = gpd.GeoDataFrame(df_parking, geometry=gpd.points_from_xy(df_parking.longitude, df_parking.latitude))
+    df_parking = df_parking[['geometry', 'number_of_spots']]
+    parking_gdf = gpd.GeoDataFrame(df_parking)
     
+    print(parking_gdf.head())
+
     # Bicycle data
     df_bicycle = read_s3_file(bicycle_path)
     df_bicycle = df_bicycle.sample(n=100, random_state=42)
     bicycle_gdf = gpd.GeoDataFrame(df_bicycle, geometry=gpd.points_from_xy(df_bicycle['longitude'], df_bicycle['latitude']))
+
+    # Mutli-modal hub
+    df_current_hubs = read_s3_file(current_hubs_path)
     
-    return demand_gdf, parking_gdf, bicycle_gdf
+    return demand_gdf, parking_gdf, bicycle_gdf, df_current_hubs
