@@ -116,10 +116,9 @@ def kepler_config(target_variable, display_target_variable, clean_variable, sele
             'config': {
                 'dataId': 'parking_data',
                 'label': parking_label,
-                'columns': {
-                    'latitude': 'latitude',  # Your DataFrame's latitude column name
-                    'longitude': 'longitude',  # Your DataFrame's longitude column name
-                },
+                    'columns': {
+                        'geojson': 'geometry'  # Your geometry column
+                    },
                 'isVisible': True,
                 'visConfig': {
                     'opacity': 0.8,
