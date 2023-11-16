@@ -747,7 +747,7 @@
             },
             "compareMode": false,
             "compareType": "relative",
-            "enabled": false
+            "enabled": true
           },
           "brush": {
             "size": 0,

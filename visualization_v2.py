@@ -6,6 +6,8 @@ import json
 from keplergl import KeplerGl
 from streamlit_keplergl import keplergl_static
 from streamlit_folium import folium_static
+from PIL import Image
+import base64
 
 from datasets import load_data
 from map_utils import create_map
@@ -14,8 +16,31 @@ from map_utils import create_map
 
 
 st.set_page_config(layout="wide")
+
+
+def get_image_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+# Convert image to base64 string
+encoded_image = get_image_base64("logo-nobg.png")
+
+# HTML to display the image
+image_html = f"""
+    <div style='text-align: center;'>
+        <img src='data:image/png;base64,{encoded_image}' style='width: 200px;'>
+    </div>
+"""
+
+st.markdown(image_html, unsafe_allow_html=True)
 st.markdown("<h1 style='text-align: center;'>Leuven Multi-Modal Mobility Dashboard</h1>", unsafe_allow_html=True)
-st.markdown("""-""")
+#with st.columns(3)[1]:
+#    logo = Image.open('logo-nobg.png')
+#    st.image(logo, width=500)
+
+st.markdown("""""")
+st.markdown("<p style='text-align: center;'>Welcome! This dashboard provides an overview of the project carried out as part of the MIT Analytics Lab initiative. More information on the team and the project at: link</p>", unsafe_allow_html=True)
+st.markdown("""---""")
 
 if 'data_loaded' not in st.session_state:
     st.session_state.data_loaded = True
