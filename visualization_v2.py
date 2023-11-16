@@ -5,14 +5,10 @@ import streamlit as st
 import json
 from keplergl import KeplerGl
 from streamlit_keplergl import keplergl_static
-from streamlit_folium import folium_static
-from PIL import Image
 import base64
 
 from datasets import load_data
 from map_utils import create_map
-
-
 
 
 st.set_page_config(layout="wide")
@@ -28,15 +24,12 @@ encoded_image = get_image_base64("logo-nobg.png")
 # HTML to display the image
 image_html = f"""
     <div style='text-align: center;'>
-        <img src='data:image/png;base64,{encoded_image}' style='width: 200px;'>
+        <img src='data:image/png;base64,{encoded_image}' style='width: 300px;'>
     </div>
 """
 
 st.markdown(image_html, unsafe_allow_html=True)
 st.markdown("<h1 style='text-align: center;'>Leuven Multi-Modal Mobility Dashboard</h1>", unsafe_allow_html=True)
-#with st.columns(3)[1]:
-#    logo = Image.open('logo-nobg.png')
-#    st.image(logo, width=500)
 
 st.markdown("""""")
 st.markdown("<p style='text-align: center;'>Welcome! This dashboard provides an overview of the project carried out as part of the MIT Analytics Lab initiative. More information on the team and the project at: link</p>", unsafe_allow_html=True)
@@ -77,16 +70,6 @@ with r1_2:
 
 with r1_3:
 
-
-    #folium_map = create_map(demand_gdf, time_of_day, 
-    #                        parking_gdf, parkings_selected, 
-    #                        multi_modal_hubs_gdf, hubs_selected, 
-    #                        bicycle_gdf, bike_network, 
-    #                        public_network)
-
-    # Display the map in the Streamlit app
-    #folium_static(folium_map)
-    
     if display_choice == 'Transportation demand':
 
         map_0 = KeplerGl(height=500)
@@ -153,16 +136,18 @@ with r2_2:
 
 
 st.markdown("""""")
-st.markdown("<h3 style='text-align: center;'>Model Output: Hubs and KPIs</h3>", unsafe_allow_html=True)
+st.markdown("<br><h3 style='text-align: center;'>Model Output: Hubs and KPIs</h3>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br>Id venenatis a condimentum vitae sapien. Massa enim nec dui nunc mattis enim ut. At erat pellentesque adipiscing commodo elit at.", unsafe_allow_html=True)
+    
 st.markdown("""""")
 
-r3_1, r3_2, r3_3, r3_4 =  st.columns((1,3,3,1))
+r3_1, r3_2, r3_3, r3_4 =  st.columns((1,2,3,1))
 
 with r3_2:
 
-    st.markdown("<h4 style='text-align: center;'>Multi-Modal Hubs</h4>", unsafe_allow_html=True)
+    #st.markdown("<h4 style='text-align: center;'>Multi-Modal Hubs</h4>", unsafe_allow_html=True)
     
-    map_2 = KeplerGl(height=450, read_only=True)
+    map_2 = KeplerGl(height=400, read_only=True)
     map_2.config = kepler_config_big_map
 
     map_2.add_data(data=hubs, name='osayxfchxj')
@@ -170,14 +155,15 @@ with r3_2:
 
 
 with r3_3:
-
-    st.markdown("<h4 style='text-align: center;'>KPIs</h4>", unsafe_allow_html=True)
+    #st.markdown("<h4 style='text-align: center;'>KPIs</h4>", unsafe_allow_html=True)
     kpi_df = pd.DataFrame({'KPI':['CO2 Emissions', 'Travel Time'], 'Change':['-10%', '+3%']})
     st.table(kpi_df)
-    
-    st.markdown("<h4 style='text-align: center;'>Hubs Details</h4>", unsafe_allow_html=True)
-    hubs_info_df = df = pd.DataFrame(np.random.randn(10, 4), columns=['Hub','Location','Parking Spots','Prescription'])
-    st.table(hubs_info_df)
+
+    with st.expander('Show Hubs Details', expanded=False):
+        st.markdown("<h4 style='text-align: center;'>Hubs Details</h4>", unsafe_allow_html=True)
+        hubs_table_df = hubs[['hub_id','address']]
+        hubs_table_df.columns = ['Hub ID', 'Address']
+        st.table(hubs_table_df)
 
 
 st.markdown("<br><br><h4 style='text-align: center;'>More visualization to come !</h4>", unsafe_allow_html=True)
