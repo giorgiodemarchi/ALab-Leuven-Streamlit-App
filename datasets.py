@@ -27,7 +27,7 @@ def read_s3_file(file_path, type):
 
     if type == 'geojson':
         # Read the object (in GeoJSON format) as a GeoPandas GeoDataFrame
-        df = gpd.read_file(BytesIO(response['Body'].read()))
+        df = gpd.read_file(BytesIO(response['Body'].read()), geometry='geometry')
     
     if type == 'gpkg':
         # Read the object (in GPKG format) as a GeoPandas GeoDataFrame
@@ -36,25 +36,32 @@ def read_s3_file(file_path, type):
     return df
 
 
-def load_data(bicycle_path, parking_path, demand_path, current_hubs_path):
+def load_data():
     """
     Load all data from S3 and return geopandas dataframes
     """
+
+    bicycle_path = 'cycling_network.gpkg'
+    parking_path = 'dashboard_cleaned_parkings.csv'
+    demand_path = 'dashboard_cleaned_demand.geojson'
+    current_hubs_path = 'dashboard_cleaned_multimodal_hubs.csv'
+    bus_stops_path = 'dashboard_cleaned_bus_stops.csv'
+
+
     # Demand data
     demand_gdf = read_s3_file(demand_path, type='geojson')
-    demand_gdf = demand_gdf.set_crs(epsg=3857, allow_override=True)
+    #demand_gdf = demand_gdf.to_crs(epsg=3857)
 
     # Parking data
     df_parking = read_s3_file(parking_path, type='csv')
-    parking_gdf = gpd.GeoDataFrame(df_parking, geometry=gpd.points_from_xy(df_parking.longitude, df_parking.latitude))
-    parking_gdf = parking_gdf[['geometry', 'number_of_spots']]
-    parking_gdf = parking_gdf.set_crs(epsg=3857, allow_override=True)
+    parking_gdf = df_parking[['latitude','longitude', 'number_of_spots']]
 
     # Bicycle data
     bicycle_gdf = read_s3_file(bicycle_path, type='gpkg')
     bicycle_gdf = bicycle_gdf[['geometry']].reset_index()
-    bicycle_gdf = bicycle_gdf.set_crs(epsg=3857, allow_override=True)
+    bicycle_gdf = bicycle_gdf.to_crs(epsg=4326)
     bicycle_gdf.columns = ['id','geometry']
+    bicycle_gdf = bicycle_gdf.to_json()
 
     # Mutli-modal hub
     df_current_hubs = read_s3_file(current_hubs_path, type='csv')
@@ -62,6 +69,11 @@ def load_data(bicycle_path, parking_path, demand_path, current_hubs_path):
     current_hubs_gdf = gpd.GeoDataFrame(df_current_hubs, geometry=gpd.points_from_xy(df_current_hubs['longitude'], df_current_hubs['latitude']))
     current_hubs_gdf = current_hubs_gdf.set_crs(epsg=3857, allow_override=True)
 
+    # Bus Stops
+    df_bus = read_s3_file(bus_stops_path, type= 'csv')
+    df_bus = df_bus[['latitude', 'longitude']]
+    bus_gdf = gpd.GeoDataFrame(df_bus, geometry=gpd.points_from_xy(df_bus['longitude'], df_bus['latitude']))
+    bus_gdf = bus_gdf.set_crs(epsg=3857, allow_override=True)
 
     # MODEL OUTPUT dataframes
     h_t_z_bike = read_s3_file('ModelOutput/hub-to-zone-bikes.csv', type='csv')
@@ -71,4 +83,4 @@ def load_data(bicycle_path, parking_path, demand_path, current_hubs_path):
     z_t_z_cars = read_s3_file('ModelOutput/zone-to-zone-cars.csv', type='csv')
 
 
-    return demand_gdf, parking_gdf, bicycle_gdf, current_hubs_gdf, [h_t_z_bike, h_t_z_public, hubs, z_t_h_cars, z_t_z_cars]
+    return demand_gdf, parking_gdf, bicycle_gdf, current_hubs_gdf, bus_gdf, [h_t_z_bike, h_t_z_public, hubs, z_t_h_cars, z_t_z_cars]
