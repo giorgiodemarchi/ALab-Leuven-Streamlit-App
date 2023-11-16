@@ -3,7 +3,7 @@ import pandas as pd
 import geopandas as gpd
 from io import StringIO, BytesIO
 import streamlit as st
-from geopy.geocoders import Nominatim
+# from geopy.geocoders import Nominatim
 
 def get_address_from_coordinates(latitude, longitude):
     geolocator = Nominatim(user_agent="ALabUser")
@@ -88,8 +88,9 @@ def load_data():
     z_t_z_cars = read_s3_file('ModelOutput/zone-to-zone-cars.csv', type='csv')
 
     hubs = read_s3_file('ModelOutput/hubs.csv', type='csv')
-    hubs['address'] = hubs.apply(lambda x: get_address_from_coordinates(x['latitude'], x['longitude']), axis=1)
-    hubs['address'] = hubs['address'].apply(lambda x: x.split(', Leuven')[0])
+    #hubs['address'] = hubs.apply(lambda x: get_address_from_coordinates(x['latitude'], x['longitude']), axis=1)
+    #hubs['address'] = hubs['address'].apply(lambda x: x.split(', Leuven')[0])
+    hubs['address'] = 'Insert address'
 
 
     return demand_gdf, parking_gdf, bicycle_gdf, current_hubs_gdf, bus_gdf, [h_t_z_bike, h_t_z_public, hubs, z_t_h_cars, z_t_z_cars]
