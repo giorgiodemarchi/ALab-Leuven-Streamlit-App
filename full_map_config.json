@@ -2,39 +2,374 @@
   "version": "v1",
   "config": {
     "visState": {
-      "filters": [
-        {
-          "dataId": [
-            "80ajktlm"
-          ],
-          "id": "xc70iav4l",
-          "name": [
-            "cars"
-          ],
-          "type": "range",
-          "value": [
-            3.58,
-            96.73
-          ],
-          "plotType": "histogram",
-          "animationWindow": "free",
-          "yAxis": null,
-          "view": "side",
-          "speed": 1,
-          "enabled": true
-        }
-      ],
+      "filters": [],
       "layers": [
         {
-          "id": "zssi17o",
+          "id": "fq24cqa",
+          "type": "arc",
+          "config": {
+            "dataId": "elklrlnt",
+            "label": "Public Hub-To-Zone",
+            "color": [
+              146,
+              38,
+              198
+            ],
+            "highlightColor": [
+              252,
+              242,
+              26,
+              255
+            ],
+            "columns": {
+              "lat0": "dest_lat",
+              "lng0": "dest_lon",
+              "lat1": "origin_lat",
+              "lng1": "origin_lon"
+            },
+            "isVisible": true,
+            "visConfig": {
+              "opacity": 0.8,
+              "thickness": 2,
+              "colorRange": {
+                "name": "Global Warming",
+                "type": "sequential",
+                "category": "Uber",
+                "colors": [
+                  "#5A1846",
+                  "#900C3F",
+                  "#C70039",
+                  "#E3611C",
+                  "#F1920E",
+                  "#FFC300"
+                ]
+              },
+              "sizeRange": [
+                "1",
+                "4"
+              ],
+              "targetColor": null
+            },
+            "hidden": false,
+            "textLabel": [
+              {
+                "field": null,
+                "color": [
+                  255,
+                  255,
+                  255
+                ],
+                "size": 18,
+                "offset": [
+                  0,
+                  0
+                ],
+                "anchor": "start",
+                "alignment": "center",
+                "outlineWidth": 0,
+                "outlineColor": [
+                  255,
+                  0,
+                  0,
+                  255
+                ],
+                "background": false,
+                "backgroundColor": [
+                  0,
+                  0,
+                  200,
+                  255
+                ]
+              }
+            ]
+          },
+          "visualChannels": {
+            "colorField": null,
+            "colorScale": "quantile",
+            "sizeField": {
+              "name": "value",
+              "type": "real"
+            },
+            "sizeScale": "linear"
+          }
+        },
+        {
+          "id": "5d43fvs",
+          "type": "arc",
+          "config": {
+            "dataId": "9aljcz69u",
+            "label": "Public Zone-To-Hub",
+            "color": [
+              146,
+              38,
+              198
+            ],
+            "highlightColor": [
+              252,
+              242,
+              26,
+              255
+            ],
+            "columns": {
+              "lat0": "origin_lat",
+              "lng0": "origin_lon",
+              "lat1": "dest_lat",
+              "lng1": "dest_lon"
+            },
+            "isVisible": true,
+            "visConfig": {
+              "opacity": 0.8,
+              "thickness": 2,
+              "colorRange": {
+                "name": "Global Warming",
+                "type": "sequential",
+                "category": "Uber",
+                "colors": [
+                  "#5A1846",
+                  "#900C3F",
+                  "#C70039",
+                  "#E3611C",
+                  "#F1920E",
+                  "#FFC300"
+                ]
+              },
+              "sizeRange": [
+                0,
+                6
+              ],
+              "targetColor": null
+            },
+            "hidden": false,
+            "textLabel": [
+              {
+                "field": null,
+                "color": [
+                  255,
+                  255,
+                  255
+                ],
+                "size": 18,
+                "offset": [
+                  0,
+                  0
+                ],
+                "anchor": "start",
+                "alignment": "center",
+                "outlineWidth": 0,
+                "outlineColor": [
+                  255,
+                  0,
+                  0,
+                  255
+                ],
+                "background": false,
+                "backgroundColor": [
+                  0,
+                  0,
+                  200,
+                  255
+                ]
+              }
+            ]
+          },
+          "visualChannels": {
+            "colorField": null,
+            "colorScale": "quantile",
+            "sizeField": {
+              "name": "value",
+              "type": "real"
+            },
+            "sizeScale": "linear"
+          }
+        },
+        {
+          "id": "rt4hbi",
+          "type": "arc",
+          "config": {
+            "dataId": "188ikwer4",
+            "label": "Bike Zone-To-Hub",
+            "color": [
+              125,
+              201,
+              127
+            ],
+            "highlightColor": [
+              252,
+              242,
+              26,
+              255
+            ],
+            "columns": {
+              "lat0": "origin_lat",
+              "lng0": "origin_lon",
+              "lat1": "dest_lat",
+              "lng1": "dest_lon"
+            },
+            "isVisible": true,
+            "visConfig": {
+              "opacity": 0.8,
+              "thickness": 2,
+              "colorRange": {
+                "name": "Global Warming",
+                "type": "sequential",
+                "category": "Uber",
+                "colors": [
+                  "#5A1846",
+                  "#900C3F",
+                  "#C70039",
+                  "#E3611C",
+                  "#F1920E",
+                  "#FFC300"
+                ]
+              },
+              "sizeRange": [
+                "1",
+                "10"
+              ],
+              "targetColor": null
+            },
+            "hidden": false,
+            "textLabel": [
+              {
+                "field": null,
+                "color": [
+                  255,
+                  255,
+                  255
+                ],
+                "size": 18,
+                "offset": [
+                  0,
+                  0
+                ],
+                "anchor": "start",
+                "alignment": "center",
+                "outlineWidth": 0,
+                "outlineColor": [
+                  255,
+                  0,
+                  0,
+                  255
+                ],
+                "background": false,
+                "backgroundColor": [
+                  0,
+                  0,
+                  200,
+                  255
+                ]
+              }
+            ]
+          },
+          "visualChannels": {
+            "colorField": null,
+            "colorScale": "quantile",
+            "sizeField": {
+              "name": "value",
+              "type": "real"
+            },
+            "sizeScale": "linear"
+          }
+        },
+        {
+          "id": "bylnm4u",
+          "type": "arc",
+          "config": {
+            "dataId": "h1hl1r4ii",
+            "label": "Bike Hub-To-Zone",
+            "color": [
+              142,
+              207,
+              86
+            ],
+            "highlightColor": [
+              252,
+              242,
+              26,
+              255
+            ],
+            "columns": {
+              "lat0": "dest_lat",
+              "lng0": "dest_lon",
+              "lat1": "origin_lat",
+              "lng1": "origin_lon"
+            },
+            "isVisible": true,
+            "visConfig": {
+              "opacity": 0.8,
+              "thickness": 1.9,
+              "colorRange": {
+                "name": "Global Warming",
+                "type": "sequential",
+                "category": "Uber",
+                "colors": [
+                  "#5A1846",
+                  "#900C3F",
+                  "#C70039",
+                  "#E3611C",
+                  "#F1920E",
+                  "#FFC300"
+                ]
+              },
+              "sizeRange": [
+                0,
+                6
+              ],
+              "targetColor": null
+            },
+            "hidden": false,
+            "textLabel": [
+              {
+                "field": null,
+                "color": [
+                  255,
+                  255,
+                  255
+                ],
+                "size": 18,
+                "offset": [
+                  0,
+                  0
+                ],
+                "anchor": "start",
+                "alignment": "center",
+                "outlineWidth": 0,
+                "outlineColor": [
+                  255,
+                  0,
+                  0,
+                  255
+                ],
+                "background": false,
+                "backgroundColor": [
+                  0,
+                  0,
+                  200,
+                  255
+                ]
+              }
+            ]
+          },
+          "visualChannels": {
+            "colorField": null,
+            "colorScale": "quantile",
+            "sizeField": {
+              "name": "value",
+              "type": "real"
+            },
+            "sizeScale": "linear"
+          }
+        },
+        {
+          "id": "nt8ya2s",
           "type": "point",
           "config": {
-            "dataId": "osayxfchxj",
-            "label": "Selected Hubs",
+            "dataId": "8he087in",
+            "label": "Hubs",
             "color": [
               255,
-              250,
-              102
+              203,
+              153
             ],
             "highlightColor": [
               252,
@@ -48,23 +383,19 @@
             },
             "isVisible": true,
             "visConfig": {
-              "radius": 10,
+              "radius": 17.5,
               "fixedRadius": false,
               "opacity": 0.8,
               "outline": false,
               "thickness": 2,
               "strokeColor": null,
               "colorRange": {
-                "name": "Global Warming",
-                "type": "sequential",
-                "category": "Uber",
+                "name": "Custom Palette",
+                "type": "custom",
+                "category": "Custom",
                 "colors": [
-                  "#5A1846",
-                  "#900C3F",
-                  "#C70039",
-                  "#E3611C",
-                  "#F1920E",
-                  "#FFC300"
+                  "#faf0f0",
+                  "#fff900"
                 ]
               },
               "strokeColorRange": {
@@ -120,7 +451,10 @@
             ]
           },
           "visualChannels": {
-            "colorField": null,
+            "colorField": {
+              "name": "value",
+              "type": "real"
+            },
             "colorScale": "quantile",
             "strokeColorField": null,
             "strokeColorScale": "quantile",
@@ -129,15 +463,15 @@
           }
         },
         {
-          "id": "zp3giy4",
+          "id": "ypbmtd",
           "type": "line",
           "config": {
-            "dataId": "77njwmcqp",
-            "label": "Direct Car Connections",
+            "dataId": "rzelow998",
+            "label": "Car Zone-To-Hub",
             "color": [
-              77,
-              193,
-              156
+              44,
+              81,
+              190
             ],
             "highlightColor": [
               252,
@@ -150,93 +484,6 @@
               "lng0": "origin_lon",
               "lat1": "dest_lat",
               "lng1": "dest_lon"
-            },
-            "isVisible": true,
-            "visConfig": {
-              "opacity": 0.8,
-              "thickness": 0.1,
-              "colorRange": {
-                "name": "Global Warming",
-                "type": "sequential",
-                "category": "Uber",
-                "colors": [
-                  "#5A1846",
-                  "#900C3F",
-                  "#C70039",
-                  "#E3611C",
-                  "#F1920E",
-                  "#FFC300"
-                ]
-              },
-              "sizeRange": [
-                0,
-                10
-              ],
-              "targetColor": null,
-              "elevationScale": 5.8
-            },
-            "hidden": false,
-            "textLabel": [
-              {
-                "field": null,
-                "color": [
-                  255,
-                  255,
-                  255
-                ],
-                "size": 18,
-                "offset": [
-                  0,
-                  0
-                ],
-                "anchor": "start",
-                "alignment": "center",
-                "outlineWidth": 0,
-                "outlineColor": [
-                  255,
-                  0,
-                  0,
-                  255
-                ],
-                "background": false,
-                "backgroundColor": [
-                  0,
-                  0,
-                  200,
-                  255
-                ]
-              }
-            ]
-          },
-          "visualChannels": {
-            "colorField": null,
-            "colorScale": "quantile",
-            "sizeField": null,
-            "sizeScale": "linear"
-          }
-        },
-        {
-          "id": "vxor8ja",
-          "type": "line",
-          "config": {
-            "dataId": "no4eo4w4b",
-            "label": "Origin-To-Hub Car Flow",
-            "color": [
-              34,
-              63,
-              154
-            ],
-            "highlightColor": [
-              252,
-              242,
-              26,
-              255
-            ],
-            "columns": {
-              "lat0": "hub_lat",
-              "lng0": "hub_lon",
-              "lat1": "origin_lat",
-              "lng1": "origin_lon"
             },
             "isVisible": true,
             "visConfig": {
@@ -303,15 +550,15 @@
           }
         },
         {
-          "id": "labtw3b",
-          "type": "arc",
+          "id": "2h372r",
+          "type": "line",
           "config": {
-            "dataId": "80ajktlm",
-            "label": "hub -> origin arc",
+            "dataId": "eyec5whl",
+            "label": "Car Zone-To-Zone (Direct)",
             "color": [
-              146,
-              38,
-              198
+              47,
+              197,
+              204
             ],
             "highlightColor": [
               252,
@@ -320,15 +567,15 @@
               255
             ],
             "columns": {
-              "lat0": "hub_lat",
-              "lng0": "hub_lon",
-              "lat1": "origin_lat",
-              "lng1": "origin_lon"
+              "lat0": "origin_lat",
+              "lng0": "origin_lon",
+              "lat1": "dest_lat",
+              "lng1": "dest_lon"
             },
             "isVisible": true,
             "visConfig": {
-              "opacity": 0.8,
-              "thickness": 2,
+              "opacity": 0.02,
+              "thickness": 0.3,
               "colorRange": {
                 "name": "Global Warming",
                 "type": "sequential",
@@ -346,7 +593,8 @@
                 0,
                 10
               ],
-              "targetColor": null
+              "targetColor": null,
+              "elevationScale": 1
             },
             "hidden": false,
             "textLabel": [
@@ -389,101 +637,15 @@
           }
         },
         {
-          "id": "is04z0s",
-          "type": "arc",
-          "config": {
-            "dataId": "od92cjex8",
-            "label": "hub -> origin arc",
-            "color": [
-              142,
-              207,
-              86
-            ],
-            "highlightColor": [
-              252,
-              242,
-              26,
-              255
-            ],
-            "columns": {
-              "lat0": "hub_lat",
-              "lng0": "hub_lon",
-              "lat1": "origin_lat",
-              "lng1": "origin_lon"
-            },
-            "isVisible": true,
-            "visConfig": {
-              "opacity": 0.8,
-              "thickness": 2,
-              "colorRange": {
-                "name": "Global Warming",
-                "type": "sequential",
-                "category": "Uber",
-                "colors": [
-                  "#5A1846",
-                  "#900C3F",
-                  "#C70039",
-                  "#E3611C",
-                  "#F1920E",
-                  "#FFC300"
-                ]
-              },
-              "sizeRange": [
-                0,
-                10
-              ],
-              "targetColor": null
-            },
-            "hidden": false,
-            "textLabel": [
-              {
-                "field": null,
-                "color": [
-                  255,
-                  255,
-                  255
-                ],
-                "size": 18,
-                "offset": [
-                  0,
-                  0
-                ],
-                "anchor": "start",
-                "alignment": "center",
-                "outlineWidth": 0,
-                "outlineColor": [
-                  255,
-                  0,
-                  0,
-                  255
-                ],
-                "background": false,
-                "backgroundColor": [
-                  0,
-                  0,
-                  200,
-                  255
-                ]
-              }
-            ]
-          },
-          "visualChannels": {
-            "colorField": null,
-            "colorScale": "quantile",
-            "sizeField": null,
-            "sizeScale": "linear"
-          }
-        },
-        {
-          "id": "nqolda",
+          "id": "ymtgaor",
           "type": "geojson",
           "config": {
-            "dataId": "u0hmlhh9",
-            "label": "dashboard_cleaned_demand",
+            "dataId": "l0x7o5zko",
+            "label": "Zones",
             "color": [
-              255,
-              254,
-              230
+              248,
+              149,
+              112
             ],
             "highlightColor": [
               252,
@@ -492,17 +654,17 @@
               255
             ],
             "columns": {
-              "geojson": "geometry"
+              "geojson": "_geojson"
             },
             "isVisible": true,
             "visConfig": {
-              "opacity": 0.05,
-              "strokeOpacity": 0.11,
-              "thickness": 0.5,
+              "opacity": 0.8,
+              "strokeOpacity": 0.8,
+              "thickness": 0.2,
               "strokeColor": [
-                245,
-                113,
-                65
+                219,
+                195,
+                175
               ],
               "colorRange": {
                 "name": "Global Warming",
@@ -601,119 +763,107 @@
       "interactionConfig": {
         "tooltip": {
           "fieldsToShow": {
-            "osayxfchxj": [
-              {
-                "name": "0",
-                "format": null
-              },
-              {
-                "name": "Value",
-                "format": null
-              },
+            "8he087in": [
               {
                 "name": "hub_id",
                 "format": null
-              }
-            ],
-            "od92cjex8": [
+              },
               {
-                "name": "0",
+                "name": "value",
                 "format": null
               },
               {
-                "name": "origin",
-                "format": null
-              },
-              {
-                "name": "hub",
-                "format": null
-              },
-              {
-                "name": "dest",
-                "format": null
-              },
-              {
-                "name": "cars",
+                "name": "address",
                 "format": null
               }
             ],
-            "80ajktlm": [
-              {
-                "name": "0",
-                "format": null
-              },
-              {
-                "name": "origin",
-                "format": null
-              },
-              {
-                "name": "hub",
-                "format": null
-              },
-              {
-                "name": "dest",
-                "format": null
-              },
-              {
-                "name": "cars",
-                "format": null
-              }
-            ],
-            "no4eo4w4b": [
-              {
-                "name": "0",
-                "format": null
-              },
-              {
-                "name": "origin",
-                "format": null
-              },
-              {
-                "name": "hub",
-                "format": null
-              },
-              {
-                "name": "dest",
-                "format": null
-              },
-              {
-                "name": "cars",
-                "format": null
-              }
-            ],
-            "77njwmcqp": [
-              {
-                "name": "0",
-                "format": null
-              },
-              {
-                "name": "origin_id",
-                "format": null
-              },
-              {
-                "name": "dest_id",
-                "format": null
-              },
-              {
-                "name": "Value",
-                "format": null
-              }
-            ],
-            "u0hmlhh9": [
-              {
-                "name": "0",
-                "format": null
-              },
+            "l0x7o5zko": [
               {
                 "name": "Zone",
                 "format": null
-              },
+              }
+            ],
+            "h1hl1r4ii": [
               {
-                "name": "Evening Demand",
+                "name": "k",
                 "format": null
               },
               {
-                "name": "Morning Demand",
+                "name": "j",
+                "format": null
+              },
+              {
+                "name": "value",
+                "format": null
+              }
+            ],
+            "188ikwer4": [
+              {
+                "name": "i",
+                "format": null
+              },
+              {
+                "name": "k",
+                "format": null
+              },
+              {
+                "name": "value",
+                "format": null
+              }
+            ],
+            "9aljcz69u": [
+              {
+                "name": "i",
+                "format": null
+              },
+              {
+                "name": "k",
+                "format": null
+              },
+              {
+                "name": "value",
+                "format": null
+              }
+            ],
+            "elklrlnt": [
+              {
+                "name": "i",
+                "format": null
+              },
+              {
+                "name": "k",
+                "format": null
+              },
+              {
+                "name": "value",
+                "format": null
+              }
+            ],
+            "rzelow998": [
+              {
+                "name": "i",
+                "format": null
+              },
+              {
+                "name": "k",
+                "format": null
+              },
+              {
+                "name": "value",
+                "format": null
+              }
+            ],
+            "eyec5whl": [
+              {
+                "name": "i",
+                "format": null
+              },
+              {
+                "name": "j",
+                "format": null
+              },
+              {
+                "name": "value",
                 "format": null
               }
             ]
@@ -748,10 +898,10 @@
     "mapState": {
       "bearing": 24,
       "dragRotate": true,
-      "latitude": 50.869946241905616,
-      "longitude": 4.668651846832122,
+      "latitude": 50.86991258940731,
+      "longitude": 4.688360303192626,
       "pitch": 50,
-      "zoom": 10.659157415595061,
+      "zoom": 10.955593951721614,
       "isSplit": false,
       "isViewportSynced": true,
       "isZoomLocked": false,

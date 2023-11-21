@@ -36,8 +36,12 @@ st.markdown("<p style='text-align: center;'>Welcome! This dashboard provides an 
 st.markdown("""---""")
 
 if 'data_loaded' not in st.session_state:
-    st.session_state.data_loaded = True
-    st.session_state.demand_gdf, st.session_state.parking_gdf, st.session_state.bicycle_gdf, st.session_state.multi_modal_hubs_gdf, st.session_state.bus_gdf, st.session_state.model_output_dfs = load_data()
+    try:
+        st.session_state.data_loaded = True
+        st.session_state.demand_gdf, st.session_state.parking_gdf, st.session_state.bicycle_gdf, st.session_state.multi_modal_hubs_gdf, st.session_state.bus_gdf, st.session_state.version_df_dict = load_data()
+    except Exception as e:
+        st.error("Internal Error :( Apologies!")
+        st.error(e)
 
 # Use data from session state
 demand_gdf = st.session_state.demand_gdf
@@ -45,7 +49,6 @@ parking_gdf = st.session_state.parking_gdf
 bicycle_gdf = st.session_state.bicycle_gdf
 multi_modal_hubs_gdf = st.session_state.multi_modal_hubs_gdf
 bus_gdf = st.session_state.bus_gdf
-model_output_dfs = st.session_state.model_output_dfs
 
 r1_1, r1_2, r1_3, r1_4 = st.columns((1,2,4,1))
 
@@ -113,26 +116,48 @@ with r2_2:
     st.markdown("<p style='text-align: center;'><strong>Usage instructions<\strong>: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id venenatis a condimentum vitae sapien. Massa enim nec dui nunc mattis enim ut. At erat pellentesque adipiscing commodo elit at. Duis ultricies lacus sed turpis tincidunt id aliquet. Rhoncus est pellentesque elit ullamcorper. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Ultrices neque ornare aenean euismod elementum nisi. Quis risus sed vulputate odio ut enim blandit volutpat. Gravida quis blandit turpis cursus in. Venenatis tellus in metus vulputate eu scelerisque.</p>", unsafe_allow_html=True)
 
 
-    ## Load Output Data
-    h_t_z_bike = model_output_dfs[0]
-    h_t_z_public = model_output_dfs[1]
-    hubs = model_output_dfs[2]
-    z_t_h_cars = model_output_dfs[3]
-    z_t_z_cars = model_output_dfs[4]
+    st.markdown("""""")
 
     kepler_config_big_map = json.load(open("full_map_config.json"))
 
+    models = ['10', '15', '20', '25']
+    selected_model = st.radio("Select number of hubs", models, horizontal=True)
+    version = int(selected_model)
+
+#    if version == 10:
+    print(len(st.session_state.version_df_dict[version]))
+    h_t_z_bike = st.session_state.version_df_dict[version][0]
+    z_t_h_bike = st.session_state.version_df_dict[version][1]
+
+    h_t_z_public = st.session_state.version_df_dict[version][2]
+    z_t_h_public = st.session_state.version_df_dict[version][3]
+
+    z_t_h_cars = st.session_state.version_df_dict[version][4]
+    z_t_z_cars = st.session_state.version_df_dict[version][5]
+
+    hubs = st.session_state.version_df_dict[version][6]
+
+    
     map_1 = KeplerGl(height=600)
     map_1.config = kepler_config_big_map
 
-    map_1.add_data(data=demand_gdf, name='u0hmlhh9')
-    map_1.add_data(data=h_t_z_bike, name='80ajktlm')
-    map_1.add_data(data=h_t_z_public, name='od92cjex8')
-    map_1.add_data(data=z_t_h_cars, name='no4eo4w4b')
-    map_1.add_data(data=z_t_z_cars, name='77njwmcqp')
-    map_1.add_data(data=hubs, name='osayxfchxj')
+    map_1.add_data(data=demand_gdf, name='l0x7o5zko')
+
+    map_1.add_data(data=z_t_h_bike, name='188ikwer4')
+    map_1.add_data(data=h_t_z_bike, name='h1hl1r4ii')
+
+    map_1.add_data(data=h_t_z_public, name='elklrlnt')
+    map_1.add_data(data=z_t_h_public, name='9aljcz69u')
+
+    map_1.add_data(data=z_t_h_cars, name='rzelow998')
+    map_1.add_data(data=z_t_z_cars, name='eyec5whl')
+
+    map_1.add_data(data=hubs, name='8he087in')
     
     keplergl_static(map_1)
+
+
+
 
 
 st.markdown("""""")
@@ -150,7 +175,7 @@ with r3_2:
     map_2 = KeplerGl(height=400, read_only=True)
     map_2.config = kepler_config_big_map
 
-    map_2.add_data(data=hubs, name='osayxfchxj')
+    map_2.add_data(data=hubs, name='8he087in')
     keplergl_static(map_2)
 
 
@@ -166,4 +191,32 @@ with r3_3:
         st.table(hubs_table_df)
 
 
-st.markdown("<br><br><h4 style='text-align: center;'>More visualization to come !</h4>", unsafe_allow_html=True)
+st.markdown("""""")
+st.markdown("<br><h3 style='text-align: center;'>Granular Analysis</h3>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br>Id venenatis a condimentum vitae sapien. Massa enim nec dui nunc mattis enim ut. At erat pellentesque adipiscing commodo elit at.", unsafe_allow_html=True)
+    
+st.markdown("""""")
+
+r4_1, r4_2, r4_3, r4_4 =  st.columns((1,2,3,1))
+
+with r4_2:
+
+    #st.markdown("<h4 style='text-align: center;'>Multi-Modal Hubs</h4>", unsafe_allow_html=True)
+    
+    map_2 = KeplerGl(height=400, read_only=True)
+    map_2.config = kepler_config_big_map
+
+    map_2.add_data(data=hubs, name='osayxfchxj')
+    keplergl_static(map_2)
+
+
+with r4_3:
+    #st.markdown("<h4 style='text-align: center;'>KPIs</h4>", unsafe_allow_html=True)
+    kpi_df = pd.DataFrame({'KPI':['CO2 Emissions', 'Travel Time'], 'Change':['-10%', '+3%']})
+    st.table(kpi_df)
+
+    with st.expander('Show Hubs Details', expanded=False):
+        st.markdown("<h4 style='text-align: center;'>Hubs Details</h4>", unsafe_allow_html=True)
+        hubs_table_df = hubs[['hub_id','address']]
+        hubs_table_df.columns = ['Hub ID', 'Address']
+        st.table(hubs_table_df)
