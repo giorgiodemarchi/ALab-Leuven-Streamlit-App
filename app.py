@@ -29,7 +29,7 @@ st.markdown(image_html, unsafe_allow_html=True)
 st.markdown("<h1 style='text-align: center;'>Leuven Multi-Modal Mobility Dashboard</h1>", unsafe_allow_html=True)
 
 st.markdown("""""")
-st.markdown("<p style='text-align: center;'>Welcome! This dashboard provides an overview of the project carried out as part of the MIT Analytics Lab initiative. More information on the team and the project <a href="https://github.com/janphilipp-girgott/leuven">here</a>.<br>In the first secion of the dashboard, you can explore the current status of Leuveun transportation infrstracture, as well as the transportation demand by zone.<br>The second section gives an overview of our optimization models, which design a network of multimodal hubs while minimizing travel time and CO2 emissions due to transport.</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Welcome! This dashboard provides an overview of the project carried out as part of the MIT Analytics Lab initiative.<br>In the first secion of the dashboard, you can explore the current status of Leuveun transportation infrstracture, as well as the transportation demand by zone.<br>The second section gives an overview of our optimization models, which design a network of multimodal hubs while minimizing travel time and CO2 emissions due to transport.</p>", unsafe_allow_html=True)
 st.markdown("""---""")
 
 if 'data_loaded' not in st.session_state:
