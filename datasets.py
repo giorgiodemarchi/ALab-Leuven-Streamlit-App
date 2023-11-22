@@ -83,7 +83,7 @@ def load_data():
     hubs_info = read_s3_file('hubs_with_address.csv', type='csv')
 
     # MODEL OUTPUT dataframes
-    versions = [10]
+    versions = [10, 15, 20, 25]
 
     version_df_dict = {}
 

@@ -32,7 +32,7 @@ st.markdown(image_html, unsafe_allow_html=True)
 st.markdown("<h1 style='text-align: center;'>Leuven Multi-Modal Mobility Dashboard</h1>", unsafe_allow_html=True)
 
 st.markdown("""""")
-st.markdown("<p style='text-align: center;'>Welcome! This dashboard provides an overview of the project carried out as part of the MIT Analytics Lab initiative. More information on the team and the project at: link</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Welcome! This dashboard provides an overview of the project carried out as part of the MIT Analytics Lab initiative. More information on the team and the project at: link.<br>In the first secion of the dashboard, you can explore the current status of Leuveun transportation infrstracture, as well as the transportation demand by zone.<br>The second section gives an overview of our optimization models, which design a network of multimodal hubs while minimizing travel time and CO2 emissions due to transport.</p>", unsafe_allow_html=True)
 st.markdown("""---""")
 
 if 'data_loaded' not in st.session_state:
@@ -71,6 +71,8 @@ with r1_2:
         st.markdown("""""")
         public_network = st.toggle("Show public transportation network", value=True)
 
+    st.markdown("""---""")
+    st.markdown("""*To see the legend, click on the icon on the top right of the map""")
 with r1_3:
 
     if display_choice == 'Transportation demand':
@@ -113,19 +115,18 @@ st.markdown("""""")
 r2_1, r2_2, r2_3 = st.columns((1,6,1))
 
 with r2_2:
-    st.markdown("<p style='text-align: center;'><strong>Usage instructions<\strong>: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id venenatis a condimentum vitae sapien. Massa enim nec dui nunc mattis enim ut. At erat pellentesque adipiscing commodo elit at. Duis ultricies lacus sed turpis tincidunt id aliquet. Rhoncus est pellentesque elit ullamcorper. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Ultrices neque ornare aenean euismod elementum nisi. Quis risus sed vulputate odio ut enim blandit volutpat. Gravida quis blandit turpis cursus in. Venenatis tellus in metus vulputate eu scelerisque.</p>", unsafe_allow_html=True)
-
+    st.markdown("<p style='text-align: center;'>This section is meant to give an overview of the output of the our optimization model. The model aims at designing a network of multi-modal hubs that minimizes travel time and CO2 emissions due to transport. In order to do so, it evaluates the installation of around 100 different candidate and selects the hubs that yields the best change in the objective. A key parameter of our model is the maximum number of hubs to be installed. This is function of the investment budget and hence we offer four different network designs for four different number of maximum hubs. The large map below displays the output for all 30 million variables included in the model. Because of the number of variables displayed, this visualization is meant for advanced users only. It is possible to regulate the map, change colors, and filter variables by opening the menu at top left. The legend is available on top right.  </p>", unsafe_allow_html=True)
+    st.markdown("""""")
+    _, subcol, _ = st.columns((2,1,2))
+    with subcol:
+        models = ['10', '15', '20', '25']
+        selected_model = st.radio("Select number of hubs", models, horizontal=True)
+        version = int(selected_model)        
 
     st.markdown("""""")
+    st.markdown("""""")
 
-    kepler_config_big_map = json.load(open("full_map_config.json"))
-
-    models = ['10', '15', '20', '25']
-    selected_model = st.radio("Select number of hubs", models, horizontal=True)
-    version = int(selected_model)
-
-#    if version == 10:
-    print(len(st.session_state.version_df_dict[version]))
+    # Read the data for the selected version
     h_t_z_bike = st.session_state.version_df_dict[version][0]
     z_t_h_bike = st.session_state.version_df_dict[version][1]
 
@@ -136,12 +137,15 @@ with r2_2:
     z_t_z_cars = st.session_state.version_df_dict[version][5]
 
     hubs = st.session_state.version_df_dict[version][6]
+    hubs = hubs[hubs['value']==1]
 
-    
+    # Create map
     map_1 = KeplerGl(height=600)
+    kepler_config_big_map = json.load(open("full_map_config.json"))
     map_1.config = kepler_config_big_map
 
-    map_1.add_data(data=demand_gdf, name='l0x7o5zko')
+    demand_gdf_json = demand_gdf.to_json()
+    map_1.add_data(data=demand_gdf_json, name='l0x7o5zko')
 
     map_1.add_data(data=z_t_h_bike, name='188ikwer4')
     map_1.add_data(data=h_t_z_bike, name='h1hl1r4ii')
@@ -156,22 +160,16 @@ with r2_2:
     
     keplergl_static(map_1)
 
-
-
-
-
 st.markdown("""""")
 st.markdown("<br><h3 style='text-align: center;'>Model Output: Hubs and KPIs</h3>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center;'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br>Id venenatis a condimentum vitae sapien. Massa enim nec dui nunc mattis enim ut. At erat pellentesque adipiscing commodo elit at.", unsafe_allow_html=True)
+st.markdown(f"<p style='text-align: center;'>This version picked {len(hubs)} optimal hubs, which you can explore below. The resulting objective values are also reported in the table on the right.", unsafe_allow_html=True)
     
 st.markdown("""""")
 
-r3_1, r3_2, r3_3, r3_4 =  st.columns((1,2,3,1))
+r3_1, r3_2, r3_3, r3_4 =  st.columns((1,3,2,1))
 
 with r3_2:
-
     #st.markdown("<h4 style='text-align: center;'>Multi-Modal Hubs</h4>", unsafe_allow_html=True)
-    
     map_2 = KeplerGl(height=400, read_only=True)
     map_2.config = kepler_config_big_map
 
@@ -181,42 +179,47 @@ with r3_2:
 
 with r3_3:
     #st.markdown("<h4 style='text-align: center;'>KPIs</h4>", unsafe_allow_html=True)
-    kpi_df = pd.DataFrame({'KPI':['CO2 Emissions', 'Travel Time'], 'Change':['-10%', '+3%']})
+    kpi_df = pd.DataFrame({'KPI':['CO2 Emissions', 'Travel Time','Hubs installed'], 'Change':['-10%', '+3%', str(len(hubs))]})
     st.table(kpi_df)
-
-    with st.expander('Show Hubs Details', expanded=False):
-        st.markdown("<h4 style='text-align: center;'>Hubs Details</h4>", unsafe_allow_html=True)
-        hubs_table_df = hubs[['hub_id','address']]
-        hubs_table_df.columns = ['Hub ID', 'Address']
-        st.table(hubs_table_df)
 
 
 st.markdown("""""")
 st.markdown("<br><h3 style='text-align: center;'>Granular Analysis</h3>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center;'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br>Id venenatis a condimentum vitae sapien. Massa enim nec dui nunc mattis enim ut. At erat pellentesque adipiscing commodo elit at.", unsafe_allow_html=True)
-    
+st.markdown("<p style='text-align: center;'>Finally, this section provides a list of recommended locations (hubs), their addresses, and the final recommendation of our model. <br>You can further explore the expected flow in each one of the hub by selecting the hub in analysis on the map on the right.</p>", unsafe_allow_html=True)
 st.markdown("""""")
 
-r4_1, r4_2, r4_3, r4_4 =  st.columns((1,2,3,1))
+r4_1, r4_2, r4_3, r4_4 =  st.columns((1,3,2,1))
+
 
 with r4_2:
-
-    #st.markdown("<h4 style='text-align: center;'>Multi-Modal Hubs</h4>", unsafe_allow_html=True)
-    
-    map_2 = KeplerGl(height=400, read_only=True)
-    map_2.config = kepler_config_big_map
-
-    map_2.add_data(data=hubs, name='osayxfchxj')
-    keplergl_static(map_2)
-
-
-with r4_3:
-    #st.markdown("<h4 style='text-align: center;'>KPIs</h4>", unsafe_allow_html=True)
-    kpi_df = pd.DataFrame({'KPI':['CO2 Emissions', 'Travel Time'], 'Change':['-10%', '+3%']})
-    st.table(kpi_df)
-
-    with st.expander('Show Hubs Details', expanded=False):
+    # Hubs menu
+    with st.expander('Show Hubs Details', expanded=True):
         st.markdown("<h4 style='text-align: center;'>Hubs Details</h4>", unsafe_allow_html=True)
         hubs_table_df = hubs[['hub_id','address']]
         hubs_table_df.columns = ['Hub ID', 'Address']
+        hubs_table_df['Install Bike Station'] = 'Yes'
+        hubs_table_df['Install Parking'] = 'Yes'
         st.table(hubs_table_df)
+
+with r4_3:
+
+    hub = st.multiselect("Select a hub", hubs['hub_id'].unique(), default=hubs['hub_id'].unique()[0])
+
+    # Create map
+    map_2 = KeplerGl(height=500, read_only=True)
+    map_2.config = kepler_config_big_map
+
+    demand_gdf_json = demand_gdf.to_json()
+    map_2.add_data(data=demand_gdf_json, name='l0x7o5zko')
+
+    map_2.add_data(data=z_t_h_bike[z_t_h_bike['k'].isin(hub)], name='188ikwer4')
+    map_2.add_data(data=h_t_z_bike[h_t_z_bike['k'].isin(hub)], name='h1hl1r4ii')
+
+
+    map_2.add_data(data=h_t_z_public[h_t_z_public['k'].isin(hub)], name='elklrlnt')
+    map_2.add_data(data=z_t_h_public[h_t_z_public['k'].isin(hub)], name='9aljcz69u')
+
+    map_2.add_data(data=z_t_h_cars[z_t_h_cars['k'].isin(hub)], name='rzelow998')
+
+    map_2.add_data(data=hubs[hubs['hub_id'].isin(hub)], name='8he087in')
+    keplergl_static(map_2)
