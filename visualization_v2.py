@@ -8,11 +8,8 @@ from streamlit_keplergl import keplergl_static
 import base64
 
 from datasets import load_data
-from map_utils import create_map
-
 
 st.set_page_config(layout="wide")
-
 
 def get_image_base64(image_path):
     with open(image_path, "rb") as img_file:
