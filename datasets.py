@@ -84,33 +84,39 @@ def load_data():
 
     # MODEL OUTPUT dataframes
     versions = [10, 15, 20, 25]
+    gammas = ['gamma086','gamma170','gamma257']
+                
 
     version_df_dict = {}
 
     for version in versions:
-        base_path = "V4 Model Output/" + str(version) + "/"
+        version_dict = {}
+        for gamma in gammas:
+            base_path = "V4 Model Output/" + str(gamma) + '/' + str(version) + "/"
 
-        z_t_h_bike = read_s3_file(base_path + 'BH_solution.csv', type='csv')
-        z_t_h_bike = z_t_h_bike.reset_index()
+            z_t_h_bike = read_s3_file(base_path + 'BH_solution.csv', type='csv')
+            z_t_h_bike = z_t_h_bike.reset_index()
 
-        h_t_z_bike = read_s3_file(base_path + 'BZ_solution.csv', type='csv')
-        h_t_z_bike = h_t_z_bike.reset_index()
+            h_t_z_bike = read_s3_file(base_path + 'BZ_solution.csv', type='csv')
+            h_t_z_bike = h_t_z_bike.reset_index()
 
-        h_t_z_public = read_s3_file(base_path + 'PZ_solution.csv', type='csv')
-        h_t_z_public = h_t_z_public.reset_index()
+            h_t_z_public = read_s3_file(base_path + 'PZ_solution.csv', type='csv')
+            h_t_z_public = h_t_z_public.reset_index()
 
-        z_t_h_public = read_s3_file(base_path + 'PH_solution.csv', type='csv')
-        z_t_h_public = z_t_h_public.reset_index()
+            z_t_h_public = read_s3_file(base_path + 'PH_solution.csv', type='csv')
+            z_t_h_public = z_t_h_public.reset_index()
 
-        z_t_h_cars = read_s3_file(base_path + 'CH_solution.csv', type='csv')
-        z_t_h_cars = z_t_h_cars.reset_index()
+            z_t_h_cars = read_s3_file(base_path + 'CH_solution.csv', type='csv')
+            z_t_h_cars = z_t_h_cars.reset_index()
 
-        z_t_z_cars = read_s3_file(base_path + 'CD_solution.csv', type='csv')
-        z_t_z_cars = z_t_z_cars.reset_index()
+            z_t_z_cars = read_s3_file(base_path + 'CD_solution.csv', type='csv')
+            z_t_z_cars = z_t_z_cars.reset_index()
 
-        hubs = read_s3_file(base_path + 'Hub_solution.csv', type='csv')
-        hubs = hubs.reset_index().reset_index()
+            hubs = read_s3_file(base_path + 'Hub_solution.csv', type='csv')
+            hubs = hubs.reset_index().reset_index()
 
-        version_df_dict[version] = [h_t_z_bike, z_t_h_bike, h_t_z_public, z_t_h_public, z_t_h_cars, z_t_z_cars, hubs]
+            version_dict[gamma] = [h_t_z_bike, z_t_h_bike, h_t_z_public, z_t_h_public, z_t_h_cars, z_t_z_cars, hubs]
+
+        version_df_dict[version] = version_dict    
     
     return demand_gdf, parking_gdf, bicycle_gdf, current_hubs_gdf, bus_gdf, version_df_dict

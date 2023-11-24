@@ -6,14 +6,17 @@ import json
 from keplergl import KeplerGl
 from streamlit_keplergl import keplergl_static
 import base64
+import matplotlib.pyplot as plt
 
 from datasets import load_data
+from plot_utils import plot_gamma
 
 st.set_page_config(layout="wide")
 
 def get_image_base64(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
+
 
 # Convert image to base64 string
 encoded_image = get_image_base64("logo-nobg.png")
@@ -113,27 +116,54 @@ r2_1, r2_2, r2_3 = st.columns((1,6,1))
 
 with r2_2:
     st.markdown("<p style='text-align: center;'>This section is meant to give an overview of the output of the our optimization model. The model aims at designing a network of multi-modal hubs that minimizes travel time and CO2 emissions due to transport. In order to do so, it evaluates the installation of around 100 different candidate and selects the hubs that yields the best change in the objective. A key parameter of our model is the maximum number of hubs to be installed. This is function of the investment budget and hence we offer four different network designs for four different number of maximum hubs. The large map below displays the output for all 30 million variables included in the model. Because of the number of variables displayed, this visualization is meant for advanced users only. It is possible to regulate the map, change colors, and filter variables by opening the menu at top left. The legend is available on top right.  </p>", unsafe_allow_html=True)
-    st.markdown("""""")
-    _, subcol, _ = st.columns((2,1,2))
-    with subcol:
-        models = ['10', '15', '20', '25']
-        selected_model = st.radio("Select number of hubs", models, horizontal=True)
-        version = int(selected_model)        
+    
+    r_1_temp, r_2_temp, r_3_temp = st.columns((1,5,1))
+    with r_2_temp:
+        data = {
+        'Gamma': [0.86, 0.86, 0.86, 0.86, 1.7, 1.7, 1.7, 1.7, 2.57, 2.57, 2.57, 2.57],
+        'Maximum Hubs': ['10', '15', '20', '25', '10', '15', '20', '25', '10', '15', '20', '25'],
+        'CO2 Decrease Against Baseline (%)': [-10, -15, -20, -5, -5, -7, -10, -8, -5, -7, -10, -8],
+        'Time Increase Against Baseline (%)': [5, 7, 10, 15, 20, 25, 8, 9, 20, 25, 8, 9]
+        }
 
+        fake_df = pd.DataFrame(data)
+        fig = plot_gamma(fake_df)
+        st.pyplot(fig)
+
+    st.markdown("""""")
+    
+    _, subcol1, subcol2, _ = st.columns((2,1,1,2))
+    with subcol1:
+        models = ['10', '15', '20', '25']
+        selected_model = st.radio("Select number of hubs", models, horizontal=False)
+        version = int(selected_model)    
+
+    with subcol2:
+        gamma = ['Aggressive', 'Moderate','Conservative'] 
+        selected_gamma = st.radio("Select willingness to trade-off CO2 for travel time", gamma, horizontal=False)
+        if selected_gamma == 'Aggressive':
+            num_gamma = 0.86
+            str_gamma = 'gamma086'
+        elif selected_gamma == 'Moderate':
+            num_gamma = 1.7
+            str_gamma = 'gamma170'
+        else:
+            num_gamma = 2.57
+            str_gamma = 'gamma257'
     st.markdown("""""")
     st.markdown("""""")
 
     # Read the data for the selected version
-    h_t_z_bike = st.session_state.version_df_dict[version][0]
-    z_t_h_bike = st.session_state.version_df_dict[version][1]
+    h_t_z_bike = st.session_state.version_df_dict[version][str_gamma][0]
+    z_t_h_bike = st.session_state.version_df_dict[version][str_gamma][1]
 
-    h_t_z_public = st.session_state.version_df_dict[version][2]
-    z_t_h_public = st.session_state.version_df_dict[version][3]
+    h_t_z_public = st.session_state.version_df_dict[version][str_gamma][2]
+    z_t_h_public = st.session_state.version_df_dict[version][str_gamma][3]
 
-    z_t_h_cars = st.session_state.version_df_dict[version][4]
-    z_t_z_cars = st.session_state.version_df_dict[version][5]
+    z_t_h_cars = st.session_state.version_df_dict[version][str_gamma][4]
+    z_t_z_cars = st.session_state.version_df_dict[version][str_gamma][5]
 
-    hubs = st.session_state.version_df_dict[version][6]
+    hubs = st.session_state.version_df_dict[version][str_gamma][6]
     hubs = hubs[hubs['value']==1]
 
     # Create map
@@ -163,6 +193,7 @@ st.markdown(f"<p style='text-align: center;'>This version picked {len(hubs)} opt
     
 st.markdown("""""")
 
+
 r3_1, r3_2, r3_3, r3_4 =  st.columns((1,3,2,1))
 
 with r3_2:
@@ -175,8 +206,10 @@ with r3_2:
 
 
 with r3_3:
-    #st.markdown("<h4 style='text-align: center;'>KPIs</h4>", unsafe_allow_html=True)
-    kpi_df = pd.DataFrame({'KPI':['CO2 Emissions', 'Travel Time','Hubs installed'], 'Change':['-10%', '+3%', str(len(hubs))]})
+
+
+    kpi_df = fake_df[(fake_df['Maximum Hubs']==selected_model) & (fake_df['Gamma']==num_gamma)].transpose()
+    kpi_df.columns = ['Value']
     st.table(kpi_df)
 
 
@@ -185,7 +218,7 @@ st.markdown("<br><h3 style='text-align: center;'>Granular Analysis</h3>", unsafe
 st.markdown("<p style='text-align: center;'>Finally, this section provides a list of recommended locations (hubs), their addresses, and the final recommendation of our model. <br>You can further explore the expected flow in each one of the hub by selecting the hub in analysis on the map on the right.</p>", unsafe_allow_html=True)
 st.markdown("""""")
 
-r4_1, r4_2, r4_3, r4_4 =  st.columns((1,3,2,1))
+r4_1, r4_2, r4_3, r4_4 =  st.columns((1,2,2,1))
 
 
 with r4_2:
@@ -194,8 +227,6 @@ with r4_2:
         st.markdown("<h4 style='text-align: center;'>Hubs Details</h4>", unsafe_allow_html=True)
         hubs_table_df = hubs[['hub_id','address']]
         hubs_table_df.columns = ['Hub ID', 'Address']
-        hubs_table_df['Install Bike Station'] = 'Yes'
-        hubs_table_df['Install Parking'] = 'Yes'
         st.table(hubs_table_df)
 
 with r4_3:
@@ -220,3 +251,6 @@ with r4_3:
 
     map_2.add_data(data=hubs[hubs['hub_id'].isin(hub)], name='8he087in')
     keplergl_static(map_2)
+
+
+
