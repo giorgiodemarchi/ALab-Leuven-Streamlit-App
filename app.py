@@ -116,19 +116,18 @@ r2_1, r2_2, r2_3 = st.columns((1,6,1))
 
 with r2_2:
     st.markdown("<p style='text-align: center;'>This section is meant to give an overview of the output of the our optimization model. The model aims at designing a network of multi-modal hubs that minimizes travel time and CO2 emissions due to transport. In order to do so, it evaluates the installation of around 100 different candidate and selects the hubs that yields the best change in the objective. A key parameter of our model is the maximum number of hubs to be installed. This is function of the investment budget and hence we offer four different network designs for four different number of maximum hubs. The large map below displays the output for all 30 million variables included in the model. Because of the number of variables displayed, this visualization is meant for advanced users only. It is possible to regulate the map, change colors, and filter variables by opening the menu at top left. The legend is available on top right.  </p>", unsafe_allow_html=True)
-    
-    r_1_temp, r_2_temp, r_3_temp = st.columns((1,5,1))
-    with r_2_temp:
-        data = {
-        'Gamma': [0.86, 0.86, 0.86, 0.86, 1.7, 1.7, 1.7, 1.7, 2.57, 2.57, 2.57, 2.57],
-        'Maximum Hubs': ['10', '15', '20', '25', '10', '15', '20', '25', '10', '15', '20', '25'],
-        'CO2 Decrease Against Baseline (%)': [-10, -15, -20, -5, -5, -7, -10, -8, -5, -7, -10, -8],
-        'Time Increase Against Baseline (%)': [5, 7, 10, 15, 20, 25, 8, 9, 20, 25, 8, 9]
-        }
+    st.markdown("""""")
 
-        fake_df = pd.DataFrame(data)
-        fig = plot_gamma(fake_df)
-        st.pyplot(fig)
+    data = {
+    'Gamma': [0.86, 0.86, 0.86, 0.86, 1.7, 1.7, 1.7, 1.7, 2.57, 2.57, 2.57, 2.57],
+    'Maximum Hubs': ['10', '15', '20', '25', '10', '15', '20', '25', '10', '15', '20', '25'],
+    'CO2 Decrease Against Baseline (%)': [-7.5, -9.3, -11.1, -12, -3, -3.9, -4.6, -5.4, -1.9, -2.6, -3.1, -3.6],
+    'Time Increase Against Baseline (%)': [11.3, 14.2, 17.1, 17.2, 1.5, 2.1, 2.4, 2.8, 0.3, 0.4, 0.5, 0.6]
+    }
+
+    kpi_tot_df = pd.DataFrame(data)
+    fig = plot_gamma(kpi_tot_df)
+    st.pyplot(fig)
 
     st.markdown("""""")
     
@@ -139,7 +138,7 @@ with r2_2:
         version = int(selected_model)    
 
     with subcol2:
-        gamma = ['Aggressive', 'Moderate','Conservative'] 
+        gamma = ['High', 'Medium','Low'] 
         selected_gamma = st.radio("Select willingness to trade-off CO2 for travel time", gamma, horizontal=False)
         if selected_gamma == 'Aggressive':
             num_gamma = 0.86
@@ -172,20 +171,22 @@ with r2_2:
     map_1.config = kepler_config_big_map
 
     demand_gdf_json = demand_gdf.to_json()
-    map_1.add_data(data=demand_gdf_json, name='l0x7o5zko')
+    map_1.add_data(data=demand_gdf_json, name='Demand/Zones-data')
 
-    map_1.add_data(data=z_t_h_bike, name='188ikwer4')
-    map_1.add_data(data=h_t_z_bike, name='h1hl1r4ii')
+    map_1.add_data(data=z_t_h_bike, name='Bike-Zone-To-Hub')
+    map_1.add_data(data=h_t_z_bike, name='Bike-Hub-To-Zone')
 
-    map_1.add_data(data=h_t_z_public, name='elklrlnt')
-    map_1.add_data(data=z_t_h_public, name='9aljcz69u')
+    map_1.add_data(data=h_t_z_public, name='Public-Hub-To-Zone')
+    map_1.add_data(data=z_t_h_public, name='Public-Zone-To-Hub') #
 
-    map_1.add_data(data=z_t_h_cars, name='rzelow998')
-    map_1.add_data(data=z_t_z_cars, name='eyec5whl')
+    map_1.add_data(data=z_t_h_cars, name='Car-Zone-To-Hub')
+    map_1.add_data(data=z_t_z_cars, name='Car-Zone-To-Zone') #eyec5whl
 
-    map_1.add_data(data=hubs, name='8he087in')
+    map_1.add_data(data=hubs, name='Hubs')
     
     keplergl_static(map_1)
+
+    st.markdown("""*To see the legend, click on the icon on the top right of the map""")
 
 st.markdown("""""")
 st.markdown("<br><h3 style='text-align: center;'>Model Output: Hubs and KPIs</h3>", unsafe_allow_html=True)
@@ -201,14 +202,14 @@ with r3_2:
     map_2 = KeplerGl(height=400, read_only=True)
     map_2.config = kepler_config_big_map
 
-    map_2.add_data(data=hubs, name='8he087in')
+    map_2.add_data(data=hubs, name='Hubs')
     keplergl_static(map_2)
 
 
 with r3_3:
 
 
-    kpi_df = fake_df[(fake_df['Maximum Hubs']==selected_model) & (fake_df['Gamma']==num_gamma)].transpose()
+    kpi_df = kpi_tot_df[(kpi_tot_df['Maximum Hubs']==selected_model) & (kpi_tot_df['Gamma']==num_gamma)].transpose()
     kpi_df.columns = ['Value']
     st.table(kpi_df)
 
@@ -238,19 +239,19 @@ with r4_3:
     map_2.config = kepler_config_big_map
 
     demand_gdf_json = demand_gdf.to_json()
-    map_2.add_data(data=demand_gdf_json, name='l0x7o5zko')
+    map_2.add_data(data=demand_gdf_json, name='Demand/Zones-data')
 
-    map_2.add_data(data=z_t_h_bike[z_t_h_bike['k'].isin(hub)], name='188ikwer4')
-    map_2.add_data(data=h_t_z_bike[h_t_z_bike['k'].isin(hub)], name='h1hl1r4ii')
+    map_2.add_data(data=z_t_h_bike[z_t_h_bike['k'].isin(hub)], name='Bike-Zone-To-Hub')
+    map_2.add_data(data=h_t_z_bike[h_t_z_bike['k'].isin(hub)], name='Bike-Hub-To-Zone')
 
+    map_2.add_data(data=h_t_z_public[h_t_z_public['k'].isin(hub)], name='Public-Hub-To-Zone')
+    map_2.add_data(data=z_t_h_public[h_t_z_public['k'].isin(hub)], name='Public-Zone-To-Hub') #
 
-    map_2.add_data(data=h_t_z_public[h_t_z_public['k'].isin(hub)], name='elklrlnt')
-    map_2.add_data(data=z_t_h_public[h_t_z_public['k'].isin(hub)], name='9aljcz69u')
+    map_2.add_data(data=z_t_h_cars[z_t_h_cars['k'].isin(hub)], name='Cars-Zone-To-Hub')
 
-    map_2.add_data(data=z_t_h_cars[z_t_h_cars['k'].isin(hub)], name='rzelow998')
-
-    map_2.add_data(data=hubs[hubs['hub_id'].isin(hub)], name='8he087in')
+    map_2.add_data(data=hubs[hubs['hub_id'].isin(hub)], name='Hubs')
     keplergl_static(map_2)
+    st.markdown("""*To see the legend, click on the icon on the top right of the map""")
 
 
 

@@ -8,7 +8,7 @@
           "id": "fq24cqa",
           "type": "arc",
           "config": {
-            "dataId": "elklrlnt",
+            "dataId": "Public-Hub-To-Zone",
             "label": "Public Hub-To-Zone",
             "color": [
               146,
@@ -97,7 +97,7 @@
           "id": "5d43fvs",
           "type": "arc",
           "config": {
-            "dataId": "9aljcz69u",
+            "dataId": "Public-Zone-To-Hub",
             "label": "Public Zone-To-Hub",
             "color": [
               146,
@@ -186,7 +186,7 @@
           "id": "rt4hbi",
           "type": "arc",
           "config": {
-            "dataId": "188ikwer4",
+            "dataId": "Bike-Zone-To-Hub",
             "label": "Bike Zone-To-Hub",
             "color": [
               125,
@@ -275,7 +275,7 @@
           "id": "bylnm4u",
           "type": "arc",
           "config": {
-            "dataId": "h1hl1r4ii",
+            "dataId": "Bike-Hub-To-Zone",
             "label": "Bike Hub-To-Zone",
             "color": [
               142,
@@ -364,7 +364,7 @@
           "id": "nt8ya2s",
           "type": "point",
           "config": {
-            "dataId": "8he087in",
+            "dataId": "Hubs",
             "label": "Hubs",
             "color": [
               255,
@@ -466,7 +466,7 @@
           "id": "ypbmtd",
           "type": "line",
           "config": {
-            "dataId": "rzelow998",
+            "dataId": "Car-Zone-To-Hub",
             "label": "Car Zone-To-Hub",
             "color": [
               44,
@@ -553,7 +553,7 @@
           "id": "2h372r",
           "type": "line",
           "config": {
-            "dataId": "eyec5whl",
+            "dataId": "Car-Zone-To-Zone",
             "label": "Car Zone-To-Zone (Direct)",
             "color": [
               47,
@@ -640,7 +640,7 @@
           "id": "ymtgaor",
           "type": "geojson",
           "config": {
-            "dataId": "l0x7o5zko",
+            "dataId": "Demand/Zones-data",
             "label": "Zones",
             "color": [
               248,
@@ -763,7 +763,7 @@
       "interactionConfig": {
         "tooltip": {
           "fieldsToShow": {
-            "8he087in": [
+            "Hubs": [
               {
                 "name": "hub_id",
                 "format": null
@@ -777,13 +777,13 @@
                 "format": null
               }
             ],
-            "l0x7o5zko": [
+            "Demand/Zones-data": [
               {
                 "name": "Zone",
                 "format": null
               }
             ],
-            "h1hl1r4ii": [
+            "Bike-Hub-To-Zone": [
               {
                 "name": "k",
                 "format": null
@@ -797,7 +797,7 @@
                 "format": null
               }
             ],
-            "188ikwer4": [
+            "Bike-Zone-To-Hub": [
               {
                 "name": "i",
                 "format": null
@@ -811,7 +811,7 @@
                 "format": null
               }
             ],
-            "9aljcz69u": [
+            "Public-Zone-To-Hub": [
               {
                 "name": "i",
                 "format": null
@@ -825,7 +825,7 @@
                 "format": null
               }
             ],
-            "elklrlnt": [
+            "Public-Hub-To-Zone": [
               {
                 "name": "i",
                 "format": null
@@ -839,7 +839,7 @@
                 "format": null
               }
             ],
-            "rzelow998": [
+            "Car-Zone-To-Hub": [
               {
                 "name": "i",
                 "format": null
@@ -853,7 +853,7 @@
                 "format": null
               }
             ],
-            "eyec5whl": [
+            "Car-Zone-To-Zone": [
               {
                 "name": "i",
                 "format": null
