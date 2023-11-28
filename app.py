@@ -32,7 +32,7 @@ st.markdown(image_html, unsafe_allow_html=True)
 st.markdown("<h1 style='text-align: center;'>Leuven Multi-Modal Mobility Dashboard</h1>", unsafe_allow_html=True)
 
 st.markdown("""""")
-st.markdown("<p style='text-align: center;'>Welcome! This dashboard provides an overview of the project carried out as part of the MIT Analytics Lab initiative.<br>In the first secion of the dashboard, you can explore the current status of Leuveun transportation infrstracture, as well as the transportation demand by zone.<br>The second section gives an overview of our optimization models, which design a network of multimodal hubs while minimizing travel time and CO2 emissions due to transport.</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Welcome! This dashboard provides an overview of the project carried out as part of the MIT Analytics Lab initiative.<br>In the first secion of the dashboard, you can explore the current status of Leuven transportation infrastracture, as well as the transportation demand by zone.<br>The second section gives an overview of our optimization models, which design a network of multimodal hubs while minimizing travel time and CO2 emissions due to transport.</p>", unsafe_allow_html=True)
 st.markdown("""---""")
 
 if 'data_loaded' not in st.session_state:
@@ -114,6 +114,14 @@ st.markdown("""""")
 
 r2_1, r2_2, r2_3 = st.columns((1,6,1))
 
+def convert_gamma(selected_gamma):
+    if selected_gamma == 'Aggressive':
+        return 0.86, 'gamma086'
+    elif selected_gamma == 'Moderate':
+        return 1.7, 'gamma170'
+    else:
+        return 2.57, 'gamma257'
+
 with r2_2:
     st.markdown("<p style='text-align: center;'>This section is meant to give an overview of the output of the our optimization model. The model aims at designing a network of multi-modal hubs that minimizes travel time and CO2 emissions due to transport. In order to do so, it evaluates the installation of around 100 different candidate and selects the hubs that yields the best change in the objective. A key parameter of our model is the maximum number of hubs to be installed. This is function of the investment budget and hence we offer four different network designs for four different number of maximum hubs. The large map below displays the output for all 30 million variables included in the model. Because of the number of variables displayed, this visualization is meant for advanced users only. It is possible to regulate the map, change colors, and filter variables by opening the menu at top left. The legend is available on top right.  </p>", unsafe_allow_html=True)
     st.markdown("""""")
@@ -138,17 +146,10 @@ with r2_2:
         version = int(selected_model)    
 
     with subcol2:
-        gamma = ['High', 'Medium','Low'] 
+        gamma = ['Aggressive', 'Medium','Conservative'] 
         selected_gamma = st.radio("Select willingness to trade-off CO2 for travel time", gamma, horizontal=False)
-        if selected_gamma == 'Aggressive':
-            num_gamma = 0.86
-            str_gamma = 'gamma086'
-        elif selected_gamma == 'Moderate':
-            num_gamma = 1.7
-            str_gamma = 'gamma170'
-        else:
-            num_gamma = 2.57
-            str_gamma = 'gamma257'
+        num_gamma, str_gamma = convert_gamma(selected_gamma)
+
     st.markdown("""""")
     st.markdown("""""")
 
